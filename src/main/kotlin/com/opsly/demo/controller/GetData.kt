@@ -1,20 +1,27 @@
 package com.opsly.demo.controller
 
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestBody
 import java.net.URL
 import kotlinx.coroutines.*
+import org.springframework.web.bind.annotation.RequestMapping
 import kotlin.system.measureTimeMillis
 
+
+@Controller
+class Controller {
+
+    @RequestMapping("/")
+    fun home(): String {
+        return "index.html"
+    }
+}
 
 @RestController
 class RestController {
     val hostName: String = "https://takehome.io"
-
-    @GetMapping("/")
-    fun home(): String {
-        return "home"
-    }
 
     @GetMapping(path = ["/socialsasync"])
     fun getAllSocialsAsync(): OutputJson = runBlocking<OutputJson> {
@@ -37,6 +44,11 @@ class RestController {
         }
         println(timeToRun)
         return response
+    }
+
+    @GetMapping(path=["/easteregg"])
+    fun getee(): String {
+        return URL("https://raw.githubusercontent.com/lancer278/coding_demo_react_redux_client/master/public/bouncy.html").readText()
     }
 
     fun getSocial(social: String): Any {
